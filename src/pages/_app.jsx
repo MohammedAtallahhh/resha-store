@@ -7,10 +7,7 @@ import { Inter } from "@next/font/google";
 
 // Styles
 import "@/styles/globals.scss";
-const inter = Inter({
-  subsets: ["latin"],
-  weight: ["100", "300", "400", "500", "700", "900"],
-});
+import { Footer, Header } from "@/components";
 
 const persistor = persistStore(store);
 
@@ -18,9 +15,13 @@ export default function App({ Component, pageProps }) {
   return (
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
-        <main className={inter.className}>
-          <Component {...pageProps} />
-        </main>
+        <>
+          <Header />
+          <main>
+            <Component {...pageProps} />
+          </main>
+          <Footer />
+        </>
       </PersistGate>
     </Provider>
   );
