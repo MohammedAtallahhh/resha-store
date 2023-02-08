@@ -4,49 +4,39 @@ import Link from "next/link";
 import AccountMenu from "./AccountMenu";
 
 // import { MdSecurity } from "react-icons/md";
-import { AiOutlineHeart } from "react-icons/ai";
+import { useSelector } from "react-redux";
 
+import { AiOutlineHeart } from "react-icons/ai";
 import styles from "./styles/TopNav.module.scss";
 
 const TopNav = () => {
+  const country = useSelector((state) => state.country);
+
   return (
     <nav className={styles.nav}>
-      <ul className={styles.list}>
-        {/* Country and currency */}
-        <li className={styles["list-item"]}>
-          <img
-            src="https://upload.wikimedia.org/wikipedia/commons/thumb/f/fe/Flag_of_Egypt.svg/2560px-Flag_of_Egypt.svg.png"
-            alt="Country flag"
-            className={styles["country-flag"]}
-          />
-          <span className={styles.country}>Egypt /</span>
-          <span>EGP</span>
-        </li>
+      <div className={`${styles.container} container`}>
+        <ul className={styles.list}>
+          {/* Country and currency */}
+          <li className={styles["list-item"]}>
+            <img
+              src={country.flag.emojitwo}
+              alt="Your country flag"
+              className={styles["country-flag"]}
+            />
+            <span className={styles.country}>{country.name}</span>
+          </li>
 
-        {/* Buyer protection */}
-        {/* <li className={styles["list-item"]}>
-        <MdSecurity />
-        <span>Buyer protection</span>
-      </li>
+          {/* Wishlist */}
+          <li className={styles["list-item"]}>
+            <Link href="/profile/wishlist">
+              <AiOutlineHeart />
+              <span>Wishlist</span>
+            </Link>
+          </li>
 
-      <li className={styles["list-item"]}>
-        <span>Customer service</span>
-      </li>
-
-      <li className={styles["list-item"]}>
-        <span>Help</span>
-      </li> */}
-
-        {/* Wishlist */}
-        <li className={styles["list-item"]}>
-          <Link href="/profile/wishlist">
-            <AiOutlineHeart />
-            <span>Wishlist</span>
-          </Link>
-        </li>
-
-        <AccountMenu />
-      </ul>
+          <AccountMenu />
+        </ul>
+      </div>
     </nav>
   );
 };

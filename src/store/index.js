@@ -4,8 +4,9 @@ import storage from "redux-persist/lib/storage";
 import thunk from "redux-thunk";
 
 import cart from "./slices/cartSlice";
+import country from "./slices/countrySlice";
 
-const reducers = combineReducers({ cart });
+const reducers = combineReducers({ cart, country });
 
 const config = {
   key: "root",

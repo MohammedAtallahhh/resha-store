@@ -1,15 +1,15 @@
 /* eslint-disable @next/next/no-img-element */
 
 import TopNav from "./TopNav";
+import MainNav from "./MainNav";
 
 import styles from "./styles/Header.module.scss";
 
 const Header = () => {
   return (
     <header className={styles.header}>
-      <div className={`container ${styles.container}`}>
-        <TopNav />
-      </div>
+      <TopNav />
+      <MainNav />
     </header>
   );
 };
