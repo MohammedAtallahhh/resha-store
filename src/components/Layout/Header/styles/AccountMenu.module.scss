@@ -1,0 +1,52 @@
+.account-menu {
+  position: relative;
+  color: #555;
+}
+
+.account-menu button {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+
+  font-size: 1.4rem;
+
+  cursor: pointer;
+}
+
+.menu-list {
+  position: absolute;
+  top: calc(100% + 1rem);
+  left: 0;
+  width: 120%;
+  border-radius: 0.5rem;
+
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+
+  padding: 2rem 1rem;
+
+  background-color: white;
+  box-shadow: 2px 4px 10px rgba(0, 0, 0, 0.05);
+
+  visibility: hidden;
+  opacity: 0;
+  translate: 0 10px;
+
+  transition: 150ms ease-in-out;
+}
+
+.open {
+  visibility: visible;
+  opacity: 1;
+  translate: 0;
+}
+
+.menu-item {
+  font-size: 1.6rem;
+}
+
+.menu-item:hover {
+  color: black;
+  text-decoration: underline;
+}
