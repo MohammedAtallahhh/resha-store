@@ -1,20 +1,24 @@
 import { useEffect } from "react";
+import { signOut, useSession } from "next-auth/react";
 
 import axios from "axios";
 
-import { set } from "@/store/slices/countrySlice";
+import { setCountry } from "@/store/slices/countrySlice";
 import { useDispatch } from "react-redux";
-
-import styles from "@/styles/Home.module.scss";
 
 export default function Home({ country }) {
   const dispatch = useDispatch();
+  const { data } = useSession();
 
   useEffect(() => {
-    dispatch(set(country));
-  }, []);
+    dispatch(setCountry(country));
+  }, [dispatch, country]);
 
-  return <h1 className={styles.title}>Hello world!</h1>;
+  return (
+    <>
+      <h1>{data ? data.user.name : "Hello world"}</h1>
+    </>
+  );
 }
 
 export const getServerSideProps = async () => {

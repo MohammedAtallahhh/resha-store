@@ -5,24 +5,32 @@ import store from "@/store";
 
 import { Inter } from "@next/font/google";
 
+import { SessionProvider } from "next-auth/react";
+
+import { Footer, Header } from "@/components";
+
 // Styles
 import "@/styles/globals.scss";
-import { Footer, Header } from "@/components";
 
 const persistor = persistStore(store);
 
-export default function App({ Component, pageProps }) {
+export default function App({
+  Component,
+  pageProps: { session, ...pageProps },
+}) {
   return (
-    <Provider store={store}>
-      <PersistGate loading={null} persistor={persistor}>
-        <>
-          <Header />
-          <main>
-            <Component {...pageProps} />
-          </main>
-          <Footer />
-        </>
-      </PersistGate>
-    </Provider>
+    <SessionProvider session={session}>
+      <Provider store={store}>
+        <PersistGate loading={null} persistor={persistor}>
+          <>
+            <Header />
+            <main>
+              <Component {...pageProps} />
+            </main>
+            <Footer />
+          </>
+        </PersistGate>
+      </Provider>
+    </SessionProvider>
   );
 }

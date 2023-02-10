@@ -4,11 +4,11 @@ const countrySlice = createSlice({
   name: "country",
   initialState: {},
   reducers: {
-    set(state, action) {
+    setCountry(_, action) {
       return action.payload;
     },
   },
 });
 
-export const { set } = countrySlice.actions;
+export const { setCountry } = countrySlice.actions;
 export default countrySlice.reducer;

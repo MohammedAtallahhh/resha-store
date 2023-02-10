@@ -1,18 +1,25 @@
+/* eslint-disable @next/next/no-img-element */
 import Link from "next/link";
 
+import { useSelector } from "react-redux";
+import { useSession } from "next-auth/react";
+
+import AccountMenu from "./AccountMenu";
+
+import { AiOutlineHeart } from "react-icons/ai";
 import { FiSearch } from "react-icons/fi";
 import { BsCart2 } from "react-icons/bs";
 import styles from "./styles/MainNav.module.scss";
 
 const MainNav = () => {
+  const country = useSelector((state) => state.country);
+  const { data } = useSession();
   return (
     <div className={styles["main-nav"]}>
       <div className={`container ${styles.container}`}>
         {/* Logo */}
         <h2 className={styles.logo}>
-          <Link href="/">
-            Resha <span></span>
-          </Link>
+          <Link href="/">Resha</Link>
         </h2>
 
         {/* Search */}
@@ -24,15 +31,37 @@ const MainNav = () => {
         </div>
 
         {/* Navbar actions */}
-        <div className={styles.actions}>
+        <ul className={styles.nav}>
+          {/* Country and currency */}
+          {country && (
+            <li className={styles["list-item"]}>
+              <img
+                src={country.flag?.emojitwo}
+                alt="Your country flag"
+                className={styles["country-flag"]}
+              />
+              <span className={styles.country}>{country.name}</span>
+            </li>
+          )}
+
           {/* Cart */}
-          <div className={styles.cart}>
+          <li className={styles.cart}>
             <button>
               <BsCart2 />
               <span className={styles["cart-count"]}>2</span>
             </button>
-          </div>
-        </div>
+          </li>
+
+          {/* Wishlist */}
+          {/* <li className={styles["list-item"]}>
+            <Link href="/profile/wishlist">
+              <AiOutlineHeart />
+              <span>Wishlist</span>
+            </Link>
+          </li> */}
+
+          <AccountMenu userData={data} />
+        </ul>
       </div>
     </div>
   );

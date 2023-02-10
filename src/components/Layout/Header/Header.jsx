@@ -1,6 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
 
-import TopNav from "./TopNav";
 import MainNav from "./MainNav";
 
 import styles from "./styles/Header.module.scss";
@@ -8,7 +7,7 @@ import styles from "./styles/Header.module.scss";
 const Header = () => {
   return (
     <header className={styles.header}>
-      <TopNav />
+      {/* <TopNav /> */}
       <MainNav />
     </header>
   );

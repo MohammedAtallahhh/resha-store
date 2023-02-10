@@ -1,24 +1,37 @@
+/* eslint-disable @next/next/no-img-element */
 import { useState } from "react";
 import Link from "next/link";
 
+import { signIn, signOut } from "next-auth/react";
+
 import { VscAccount } from "react-icons/vsc";
-import { AiOutlineCaretDown } from "react-icons/ai";
+import { AiOutlineCaretDown, AiOutlineHeart } from "react-icons/ai";
+
 import styles from "./styles/AccountMenu.module.scss";
 
-const AccountMenu = ({ isLoggedIn }) => {
+const AccountMenu = ({ userData }) => {
   const [menuOpen, setMenu] = useState(false);
+
   return (
     <div className={styles["account-menu"]}>
       <button onClick={() => setMenu((prev) => !prev)}>
-        <VscAccount />
-        <span>MohammedAtallah</span>
+        {userData ? (
+          <img src={userData.user.image} alt="user avatar" />
+        ) : (
+          <VscAccount />
+        )}
+        <span>{userData ? userData.user.name.split(" ")[0] : "Account"}</span>
         <AiOutlineCaretDown />
       </button>
-      {/* <AccountMenu isLoggedIn={loggedIn} /> */}
 
       <ul className={`${styles["menu-list"]} ${menuOpen ? styles.open : ""}`}>
         <li className={styles["menu-item"]}>
           <Link href="/profile">Account</Link>
+        </li>
+        <li className={styles["menu-item"]}>
+          <Link href="/profile/wishlist">
+            <span>Wishlist</span>
+          </Link>
         </li>
         <li className={styles["menu-item"]}>
           <Link href="/profile/orders">My Orders</Link>
@@ -29,13 +42,17 @@ const AccountMenu = ({ isLoggedIn }) => {
         <li className={styles["menu-item"]}>
           <Link href="/profile/address">Address</Link>
         </li>
-        {isLoggedIn ? (
-          <li className={styles["menu-item"]}>
-            <button className="btn-danger">Logout</button>
-          </li>
+        {userData ? (
+          // <li className={styles["menu-item"]}>
+          <button className="btn-danger" onClick={() => signOut()}>
+            Logout
+          </button>
         ) : (
+          // </li>
           <>
-            <button className="btn-primary">Login</button>
+            <button className="btn-primary" onClick={() => signIn()}>
+              Login
+            </button>
             <button className="btn-secondary">Register</button>
           </>
         )}
