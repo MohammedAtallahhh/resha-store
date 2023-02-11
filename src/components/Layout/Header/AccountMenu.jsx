@@ -5,9 +5,9 @@ import Link from "next/link";
 import { signIn, signOut } from "next-auth/react";
 
 import { VscAccount } from "react-icons/vsc";
-import { AiOutlineCaretDown, AiOutlineHeart } from "react-icons/ai";
+import { AiOutlineCaretDown } from "react-icons/ai";
 
-import styles from "./styles/AccountMenu.module.scss";
+import styles from "./AccountMenu.module.scss";
 
 const AccountMenu = ({ userData }) => {
   const [menuOpen, setMenu] = useState(false);
