@@ -30,6 +30,8 @@
   .forget-password {
     display: inline-block;
     margin-top: 1rem;
+
+    color: rgb(0, 119, 255);
   }
 }
 
@@ -79,6 +81,8 @@
   align-items: stretch;
 
   button {
+    font-size: 2rem;
+
     border: 1px solid #ddd;
     padding: 2rem;
 

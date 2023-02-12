@@ -1,13 +1,24 @@
+import Link from "next/link";
+
 import { getServerSession } from "next-auth";
 import { getProviders, signIn } from "next-auth/react";
-import Link from "next/link";
+
+import { Field, Form, Formik, useFormik } from "formik";
 
 import { AiFillGithub } from "react-icons/ai";
 import { FcGoogle } from "react-icons/fc";
 import styles from "../styles/pages/auth.module.scss";
 import { authOptions } from "./api/auth/[...nextauth]";
+import { object, string } from "yup";
 
 const Login = ({ providers }) => {
+  // Login schema
+  const loginSchema = object({
+    email: string().required("Email is required.").email("Invalid email"),
+    password: string().required("Password is required."),
+  });
+
+  // Login with providers
   const handleLogin = async (providerId) => {
     try {
       await signIn(providerId);
@@ -15,6 +26,7 @@ const Login = ({ providers }) => {
       console.log({ error });
     }
   };
+
   return (
     <div className={styles.auth}>
       <div className="container">
@@ -23,27 +35,52 @@ const Login = ({ providers }) => {
           <p>Get access to one of the best E-shopping services in the world.</p>
 
           {/* Login form */}
-          <form className={styles["login-form"]}>
-            <div className={styles["form-group"]}>
-              <input type="email" placeholder="Email Address" />
-            </div>
-            <div className={styles["form-group"]}>
-              <input type="password" placeholder="Password" />
-              <Link
-                href="/forget-password"
-                className={styles["forget-password"]}
-              >
-                Forget password?
-              </Link>
-            </div>
+          <Formik
+            initialValues={{ email: "", password: "" }}
+            onSubmit={(values) => {
+              console.log(values);
+            }}
+            validationSchema={loginSchema}
+          >
+            {(form) => (
+              <Form className={styles["login-form"]}>
+                <div className={styles["form-group"]}>
+                  {console.log(form)}
+                  <Field
+                    type="email"
+                    name="email"
+                    placeholder="Email Address"
+                    // onChange={handleChange}
+                    // value={values.email}
+                  />
+                </div>
+                <div className={styles["form-group"]}>
+                  <Field
+                    name="password"
+                    type="password"
+                    placeholder="Password"
+                    // value={values.password}
+                    // onChange={handleChange}
+                  />
+                  <Link
+                    href="/forget-password"
+                    className={styles["forget-password"]}
+                  >
+                    Forget password?
+                  </Link>
+                </div>
 
-            <button className="btn-primary">Login</button>
+                <button className="btn-primary" type="submit">
+                  Login
+                </button>
 
-            <p className={styles.message}>
-              Don&apos;t have and account?
-              <Link href="/register">Register</Link>
-            </p>
-          </form>
+                <p className={styles.message}>
+                  Don&apos;t have and account?
+                  <Link href="/register">Register</Link>
+                </p>
+              </Form>
+            )}
+          </Formik>
 
           <div className={styles.line}></div>
 
@@ -56,7 +93,7 @@ const Login = ({ providers }) => {
               >
                 {provider.name === "Google" ? <FcGoogle /> : null}
                 {provider.name === "GitHub" ? <AiFillGithub /> : null}
-                Sign in with {provider.name}
+                Login with {provider.name}
               </button>
             ))}
           </div>

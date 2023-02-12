@@ -16,7 +16,7 @@ const AccountMenu = ({ userData }) => {
 
   const handleLogout = async () => {
     const data = await signOut({ redirect: false, callbackUrl: "/login" });
-    setMenu(false);
+    setMenu((prev) => !prev);
     router.push(data.url);
   };
 
@@ -58,11 +58,22 @@ const AccountMenu = ({ userData }) => {
         ) : (
           // </li>
           <>
-            <button className="btn-primary" onClick={() => signIn()}>
+            <button
+              className="btn-primary"
+              onClick={() => {
+                signIn();
+                setMenu((prev) => !prev);
+              }}
+            >
               Login
             </button>
             <Link href="/register">
-              <button className="btn-secondary">Register</button>
+              <button
+                className="btn-secondary"
+                onClick={() => setMenu((prev) => !prev)}
+              >
+                Register
+              </button>
             </Link>
           </>
         )}
