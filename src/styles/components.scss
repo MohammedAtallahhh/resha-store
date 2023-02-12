@@ -1,0 +1,33 @@
+.content {
+  min-height: 70vh;
+}
+
+.btn-primary {
+  background: rgb(0, 119, 255);
+  color: white;
+  padding: 0.5em 1em;
+}
+
+.btn-primary:hover {
+  background: rgb(0, 103, 219);
+}
+
+.btn-secondary {
+  color: #666;
+  border: 2px solid #aaa;
+  padding: 0.5em 1em;
+}
+.btn-secondary:hover {
+  color: #222;
+  border-color: #555;
+}
+
+.btn-danger {
+  color: rgb(253, 73, 73);
+  font-size: 1.6rem;
+}
+
+.btn-danger:hover {
+  color: rgb(238, 25, 25);
+  text-decoration: underline;
+}

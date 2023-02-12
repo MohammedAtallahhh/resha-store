@@ -24,7 +24,7 @@ export default function App({
         <PersistGate loading={null} persistor={persistor}>
           <>
             <Header />
-            <main>
+            <main className="content">
               <Component {...pageProps} />
             </main>
             <Footer />

@@ -13,6 +13,7 @@ import styles from "./Header.module.scss";
 const Header = () => {
   const country = useSelector((state) => state.country);
   const { data } = useSession();
+
   return (
     <header className={styles.header}>
       <div className={styles["main-nav"]}>
@@ -40,7 +41,7 @@ const Header = () => {
                   alt="Your country flag"
                   className={styles["country-flag"]}
                 />
-                <span className={styles.country}>{country.name}</span>
+                <span className={styles["country-name"]}>{country.name}</span>
               </li>
             )}
 

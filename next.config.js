@@ -5,7 +5,10 @@ const nextConfig = {
   reactStrictMode: true,
   sassOptions: {
     includePaths: [path.join(__dirname, "src/styles")],
-    prependData: `@import "./base.scss";`,
+    prependData: `
+          @import "./components.scss";
+          @import "./helpers.scss";
+    `,
   },
 };
 
