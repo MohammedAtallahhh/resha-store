@@ -3,11 +3,10 @@ import { PersistGate } from "redux-persist/integration/react";
 import { Provider } from "react-redux";
 import store from "@/store";
 
-import { Inter } from "@next/font/google";
-
 import { SessionProvider } from "next-auth/react";
 
-import { Footer, Header } from "@/components";
+import Header from "@/components/Layout/Header/Header";
+import Footer from "@/components/Layout/Footer";
 
 // Styles
 import "@/styles/globals.scss";

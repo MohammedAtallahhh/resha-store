@@ -1,7 +1,7 @@
 import { useEffect } from "react";
-import { signOut, useSession } from "next-auth/react";
+import { useSession } from "next-auth/react";
 
-import axios from "axios";
+// import axios from "axios";
 
 import { setCountry } from "@/store/slices/countrySlice";
 import { useDispatch } from "react-redux";
@@ -26,6 +26,7 @@ export const getServerSideProps = async () => {
   //   `https://api.ipregistry.co/197.40.209.35?key=ww5bo722kw5p5pim`
   // );
   // const country = res.data.location.country;
+
   const country = {
     name: "Egypt",
     flag: {

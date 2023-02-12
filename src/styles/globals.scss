@@ -31,6 +31,7 @@ body {
   -webkit-font-smoothing: antialiased;
 
   background: #fcfcfc;
+  color: #222;
 }
 
 input,
@@ -43,25 +44,40 @@ button {
 a {
   text-decoration: none;
   color: inherit;
+
+  button {
+    width: 100%;
+  }
+}
+
+a:hover {
+  text-decoration: underline;
 }
 
 ul {
   list-style: none;
 }
 
-button {
+button,
+input {
   border: none;
   outline: none;
   background: none;
   color: inherit;
 
-  font-size: 1.4rem;
+  font-size: 1.6rem;
   font-weight: 500;
+}
 
-  transition: 150ms ease;
+button {
   cursor: pointer;
+  transition: 150ms ease;
 }
 
 img {
   max-width: 100%;
+}
+
+input:focus {
+  box-shadow: 0 0 5px 5px rgba(221, 221, 221, 0.5);
 }

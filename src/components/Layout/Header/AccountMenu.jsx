@@ -4,6 +4,7 @@ import Link from "next/link";
 
 import { signIn, signOut } from "next-auth/react";
 
+import { useRouter } from "next/router";
 import { VscAccount } from "react-icons/vsc";
 import { AiOutlineCaretDown } from "react-icons/ai";
 
@@ -11,6 +12,13 @@ import styles from "./AccountMenu.module.scss";
 
 const AccountMenu = ({ userData }) => {
   const [menuOpen, setMenu] = useState(false);
+  const router = useRouter();
+
+  const handleLogout = async () => {
+    const data = await signOut({ redirect: false, callbackUrl: "/login" });
+    setMenu(false);
+    router.push(data.url);
+  };
 
   return (
     <div className={styles["account-menu"]}>
@@ -44,7 +52,7 @@ const AccountMenu = ({ userData }) => {
         </li>
         {userData ? (
           // <li className={styles["menu-item"]}>
-          <button className="btn-danger" onClick={() => signOut()}>
+          <button className="btn-danger" onClick={handleLogout}>
             Logout
           </button>
         ) : (
@@ -53,7 +61,9 @@ const AccountMenu = ({ userData }) => {
             <button className="btn-primary" onClick={() => signIn()}>
               Login
             </button>
-            <button className="btn-secondary">Register</button>
+            <Link href="/register">
+              <button className="btn-secondary">Register</button>
+            </Link>
           </>
         )}
       </ul>

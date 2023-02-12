@@ -25,7 +25,7 @@ const Header = () => {
 
           {/* Search */}
           <div className={styles.search}>
-            <input type="search" />
+            <input type="search" placeholder="Search Resha store" />
             <button className="btn-primary">
               <FiSearch />
             </button>
