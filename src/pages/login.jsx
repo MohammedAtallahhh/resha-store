@@ -3,7 +3,7 @@ import Link from "next/link";
 import { getServerSession } from "next-auth";
 import { getProviders, signIn } from "next-auth/react";
 
-import { Field, Form, Formik, useFormik } from "formik";
+import { Field, Form, Formik } from "formik";
 
 import { AiFillGithub } from "react-icons/ai";
 import { FcGoogle } from "react-icons/fc";
@@ -37,31 +37,37 @@ const Login = ({ providers }) => {
           {/* Login form */}
           <Formik
             initialValues={{ email: "", password: "" }}
-            onSubmit={(values) => {
+            onSubmit={(values, { resetForm }) => {
               console.log(values);
+              resetForm();
             }}
             validationSchema={loginSchema}
           >
-            {(form) => (
+            {({ errors, touched }) => (
               <Form className={styles["login-form"]}>
+                {/* Form group */}
                 <div className={styles["form-group"]}>
-                  {console.log(form)}
                   <Field
                     type="email"
                     name="email"
                     placeholder="Email Address"
-                    // onChange={handleChange}
-                    // value={values.email}
                   />
+
+                  {errors.email && touched.email && (
+                    <p className={styles.error}>{errors.email}</p>
+                  )}
                 </div>
+
+                {/* Form group */}
                 <div className={styles["form-group"]}>
                   <Field
                     name="password"
                     type="password"
                     placeholder="Password"
-                    // value={values.password}
-                    // onChange={handleChange}
                   />
+                  {errors.password && touched.password && (
+                    <p className={styles.error}>{errors.password}</p>
+                  )}
                   <Link
                     href="/forget-password"
                     className={styles["forget-password"]}

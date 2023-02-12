@@ -6,11 +6,11 @@
   max-width: 600px;
   margin: 0 auto;
 
-  h2 {
+  > h2 {
     font-size: 4rem;
   }
 
-  p {
+  > p {
     font-size: 1.6rem;
     color: #555;
     margin-bottom: 4rem;
@@ -32,6 +32,15 @@
     margin-top: 1rem;
 
     color: rgb(0, 119, 255);
+  }
+
+  .error {
+    padding: 1rem 0;
+    color: red;
+  }
+
+  .valid {
+    border: 1px solid green;
   }
 }
 
@@ -81,7 +90,7 @@
   align-items: stretch;
 
   button {
-    font-size: 2rem;
+    font-size: 1.8rem;
 
     border: 1px solid #ddd;
     padding: 2rem;
