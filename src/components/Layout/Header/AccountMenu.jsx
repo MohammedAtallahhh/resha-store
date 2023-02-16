@@ -1,8 +1,8 @@
 /* eslint-disable @next/next/no-img-element */
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Link from "next/link";
 
-import { signIn, signOut } from "next-auth/react";
+import { signOut } from "next-auth/react";
 
 import { useRouter } from "next/router";
 import { VscAccount } from "react-icons/vsc";
@@ -12,16 +12,30 @@ import styles from "./AccountMenu.module.scss";
 
 const AccountMenu = ({ userData }) => {
   const [menuOpen, setMenu] = useState(false);
+  const menuRef = useRef();
   const router = useRouter();
 
   const handleLogout = async () => {
-    const data = await signOut({ redirect: false, callbackUrl: "/login" });
+    const data = await signOut({ redirect: false, callbackUrl: "/signin" });
     setMenu((prev) => !prev);
     router.push(data.url);
   };
 
+  useEffect(() => {
+    const handler = (e) => {
+      // Close the menu when clicking outside and it's open
+      if (menuOpen && !e.target.closest(`.${menuRef.current.className}`)) {
+        setMenu(false);
+      }
+    };
+
+    document.addEventListener("click", handler);
+
+    return () => document.removeEventListener("click", handler);
+  }, [menuOpen]);
+
   return (
-    <div className={styles["account-menu"]}>
+    <div ref={menuRef} className={styles["account-menu"]}>
       <button onClick={() => setMenu((prev) => !prev)}>
         {userData ? (
           <img src={userData.user.image} alt="user avatar" />
@@ -58,16 +72,17 @@ const AccountMenu = ({ userData }) => {
         ) : (
           // </li>
           <>
-            <button
-              className="btn-primary"
-              onClick={() => {
-                signIn();
-                setMenu((prev) => !prev);
-              }}
-            >
-              Login
-            </button>
-            <Link href="/register">
+            <Link href="/signin">
+              <button
+                className="btn-primary"
+                onClick={() => {
+                  setMenu((prev) => !prev);
+                }}
+              >
+                Login
+              </button>
+            </Link>
+            <Link href="/signup">
               <button
                 className="btn-secondary"
                 onClick={() => setMenu((prev) => !prev)}

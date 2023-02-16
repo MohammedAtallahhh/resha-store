@@ -29,6 +29,8 @@ export const connectDB = async () => {
       connection.isConnected = db.connections[0].readyState;
     })
     .catch((err) => console.log(err.message));
+
+  // mongoose.set("strictQuery", true);
 };
 
 export const disconnectDB = async () => {

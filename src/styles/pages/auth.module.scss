@@ -2,7 +2,7 @@
   padding: 5rem 0;
 }
 
-.login-inner {
+.auth-inner {
   max-width: 600px;
   margin: 0 auto;
 
@@ -23,8 +23,13 @@
   input {
     width: 100%;
     padding: 2rem 2rem;
+    margin-bottom: 0.5rem;
     background: #f3f3f3;
     border: 1px solid #e4e4e4;
+
+    &:focus {
+      border: 2px dotted #aaa;
+    }
   }
 
   .forget-password {
@@ -35,8 +40,11 @@
   }
 
   .error {
-    padding: 1rem 0;
-    color: red;
+    font-size: 1.4rem;
+    padding: 0.5rem 2rem;
+    border-radius: 0.5rem;
+    background: rgb(255, 197, 197);
+    color: rgb(252, 38, 38);
   }
 
   .valid {
@@ -44,7 +52,7 @@
   }
 }
 
-.login-form button {
+.auth-form button {
   width: 100%;
   font-size: 2rem;
 

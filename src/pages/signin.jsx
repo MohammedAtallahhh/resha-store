@@ -2,26 +2,27 @@ import Link from "next/link";
 
 import { getServerSession } from "next-auth";
 import { getProviders, signIn } from "next-auth/react";
+import { authOptions } from "./api/auth/[...nextauth]";
 
 import { Field, Form, Formik } from "formik";
+import { object, string } from "yup";
 
 import { AiFillGithub } from "react-icons/ai";
 import { FcGoogle } from "react-icons/fc";
 import styles from "../styles/pages/auth.module.scss";
-import { authOptions } from "./api/auth/[...nextauth]";
-import { object, string } from "yup";
 
-const Login = ({ providers }) => {
-  // Login schema
-  const loginSchema = object({
+const SignIn = ({ providers }) => {
+  // SignIn schema
+  const SignInSchema = object({
     email: string().required("Email is required.").email("Invalid email"),
     password: string().required("Password is required."),
   });
 
-  // Login with providers
-  const handleLogin = async (providerId) => {
+  // SignIn with providers
+  const handleSignIn = async (providerId) => {
     try {
-      await signIn(providerId);
+      const res = await signIn(providerId);
+      console.log({ res });
     } catch (error) {
       console.log({ error });
     }
@@ -30,21 +31,21 @@ const Login = ({ providers }) => {
   return (
     <div className={styles.auth}>
       <div className="container">
-        <div className={styles["login-inner"]}>
-          <h2>Login.</h2>
+        <div className={styles["auth-inner"]}>
+          <h2>Sign In.</h2>
           <p>Get access to one of the best E-shopping services in the world.</p>
 
-          {/* Login form */}
+          {/* SignIn form */}
           <Formik
             initialValues={{ email: "", password: "" }}
             onSubmit={(values, { resetForm }) => {
               console.log(values);
               resetForm();
             }}
-            validationSchema={loginSchema}
+            validationSchema={SignInSchema}
           >
             {({ errors, touched }) => (
-              <Form className={styles["login-form"]}>
+              <Form className={styles["auth-form"]}>
                 {/* Form group */}
                 <div className={styles["form-group"]}>
                   <Field
@@ -77,12 +78,12 @@ const Login = ({ providers }) => {
                 </div>
 
                 <button className="btn-primary" type="submit">
-                  Login
+                  SignIn
                 </button>
 
                 <p className={styles.message}>
                   Don&apos;t have and account?
-                  <Link href="/register">Register</Link>
+                  <Link href="/signup">Register</Link>
                 </p>
               </Form>
             )}
@@ -90,16 +91,16 @@ const Login = ({ providers }) => {
 
           <div className={styles.line}></div>
 
-          {/* Login providers */}
+          {/* SignIn providers */}
           <div className={styles.providers}>
             {Object.values(providers).map((provider) => (
               <button
                 key={provider.id}
-                onClick={() => handleLogin(provider.id)}
+                onClick={() => handleSignIn(provider.id)}
               >
                 {provider.name === "Google" ? <FcGoogle /> : null}
                 {provider.name === "GitHub" ? <AiFillGithub /> : null}
-                Login with {provider.name}
+                Sign In with {provider.name}
               </button>
             ))}
           </div>
@@ -126,4 +127,4 @@ export async function getServerSideProps(context) {
   };
 }
 
-export default Login;
+export default SignIn;

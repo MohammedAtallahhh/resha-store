@@ -20,8 +20,10 @@ export const authOptions = {
     }),
   ],
 
+  callbacks: {},
+
   pages: {
-    signIn: "/login",
+    signIn: "/signin",
   },
 
   session: {
