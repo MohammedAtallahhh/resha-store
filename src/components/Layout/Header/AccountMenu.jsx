@@ -72,22 +72,28 @@ const AccountMenu = ({ userData }) => {
         ) : (
           // </li>
           <>
-            <Link href="/signin">
+            <Link
+              href={`/signin?callbackUrl=${encodeURIComponent(
+                process.env.NEXT_PUBLIC_BASE_URL + router.asPath
+              )}`}
+            >
               <button
                 className="btn-primary"
-                onClick={() => {
-                  setMenu((prev) => !prev);
-                }}
+                onClick={() => setMenu((prev) => !prev)}
               >
-                Login
+                Sign In
               </button>
             </Link>
-            <Link href="/signup">
+            <Link
+              href={`/signup?callbackUrl=${encodeURIComponent(
+                process.env.NEXT_PUBLIC_BASE_URL + router.asPath
+              )}`}
+            >
               <button
                 className="btn-secondary"
                 onClick={() => setMenu((prev) => !prev)}
               >
-                Register
+                Sign Up
               </button>
             </Link>
           </>

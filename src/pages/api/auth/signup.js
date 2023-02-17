@@ -1,7 +1,7 @@
 import User from "models/User";
 import bcrypt from "bcrypt";
 
-import { connectDB } from "@/helpers/db";
+import { connectDB, disconnectDB } from "@/helpers/db";
 import { validateEmail } from "@/helpers/validate";
 // import { createActivationToken } from "@/helpers/tokens";
 // import { sendEmail } from "@/helpers/sendemail";
@@ -43,9 +43,10 @@ const handler = async (req, res) => {
       //   id: addedUser._id.toString(),
       // });
 
-      // const activation_url = `${process.env.BASE_URL}/activate/${activation_token}`;
+      // const activation_url = `${process.env.NEXT_PUBLIC_BASE_URL}/activate/${activation_token}`;
 
       // sendEmail(email, activation_url, "Activate Your Account", "");
+      await disconnectDB();
       return res.status(200).json({ user: addedUser });
     }
   } catch (err) {

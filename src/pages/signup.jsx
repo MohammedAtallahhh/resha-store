@@ -1,5 +1,9 @@
 import Link from "next/link";
+import { useRouter } from "next/router";
 
+import { useState } from "react";
+
+import { signIn } from "next-auth/react";
 import { getServerSession } from "next-auth";
 import { authOptions } from "./api/auth/[...nextauth]";
 
@@ -7,14 +11,24 @@ import { useFormik } from "formik";
 import { object, string, ref } from "yup";
 
 import styles from "../styles/pages/auth.module.scss";
+import axios from "axios";
+import Loader from "@/components/Layout/Loader/Loader";
 
-const SignUp = () => {
+const SignUp = ({ callbackUrl }) => {
+  const [loading, setLoading] = useState(false);
+  const [message, setMessage] = useState("");
+
+  const router = useRouter();
+
   const signUpSchema = object().shape({
-    fullName: string()
+    name: string()
       .required("Full Name is required")
       .min(3, "Your name must be at least 3 characters long")
-      .max(16, `Your name mustn't be more than 16 characters`)
-      .matches(/^[aA-zZ]+$/, "Numbers and special characters are not allowed"),
+      .max(24, `Your name mustn't be more than 24 characters`)
+      .matches(
+        /^[a-zA-Z ]+$/,
+        "Numbers and special characters are not allowed"
+      ),
 
     email: string().required("Email is required").email("Invalid email"),
     password: string()
@@ -35,7 +49,7 @@ const SignUp = () => {
     touched,
   } = useFormik({
     initialValues: {
-      fullName: "",
+      name: "",
       email: "",
       password: "",
       confirmPassword: "",
@@ -43,14 +57,39 @@ const SignUp = () => {
 
     validationSchema: signUpSchema,
 
-    onSubmit: (values) => {
-      console.log({ values });
-      resetForm();
+    onSubmit: async (values) => {
+      try {
+        setLoading(true);
+
+        // Making the request to add the user
+        const { data } = await axios.post("/api/auth/signup", values);
+        setMessage(data.message);
+
+        // adding the session and direct the user to homepage
+        const res = await signIn("credentials", {
+          ...values,
+          redirect: false,
+        });
+
+        if (res.ok) {
+          resetForm();
+          router.push(callbackUrl);
+          setMessage("Singed in successfully");
+        }
+        setMessage(res.error);
+        setLoading(false);
+        resetForm();
+        //
+      } catch (err) {
+        setLoading(false);
+        setMessage(err.response.data.message);
+      }
     },
   });
 
   return (
     <div className={styles.auth}>
+      {loading && <Loader loading={loading} />}
       <div className="container">
         <div className={styles["auth-inner"]}>
           <h2>Sign Up.</h2>
@@ -61,13 +100,13 @@ const SignUp = () => {
             <div className={styles["form-group"]}>
               <input
                 type="text"
-                name="fullName"
+                name="name"
                 placeholder="Full Name"
-                value={values.fullName}
+                value={values.name}
                 onChange={handleChange}
               />
-              {errors.fullName && touched.fullName && (
-                <p className={styles.error}>{errors.fullName}</p>
+              {errors.name && touched.name && (
+                <p className={styles.error}>{errors.name}</p>
               )}
             </div>
             <div className={styles["form-group"]}>
@@ -115,13 +154,21 @@ const SignUp = () => {
               disabled={isSubmitting}
               className="btn-primary"
             >
-              signUp
+              Sign Up
             </button>
 
             <p className={styles.message}>
               Already have an account?
-              <Link href="/signin">Login</Link>
+              <Link
+                href={`/signup?callbackUrl=${encodeURIComponent(
+                  process.env.NEXT_PUBLIC_BASE_URL + router.asPath
+                )}`}
+              >
+                Sign in
+              </Link>
             </p>
+
+            {message && <p>{message}</p>}
           </form>
         </div>
       </div>
@@ -131,16 +178,14 @@ const SignUp = () => {
 
 export async function getServerSideProps(context) {
   const session = await getServerSession(context.req, context.res, authOptions);
+  const { callbackUrl } = context.query;
 
-  // If the user is already logged in, redirect.
-  // Note: Make sure not to redirect to the same page
-  // To avoid an infinite loop!
   if (session) {
-    return { redirect: { destination: "/" } };
+    return { redirect: { destination: callbackUrl || "/" } };
   }
 
   return {
-    props: {},
+    props: { callbackUrl },
   };
 }
 

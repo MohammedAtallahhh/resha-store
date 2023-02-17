@@ -52,7 +52,7 @@
   }
 }
 
-.auth-form button {
+.auth-form > button {
   width: 100%;
   font-size: 2rem;
 
@@ -79,7 +79,8 @@
   }
 }
 
-.message a {
+.message :is(button, a) {
+  display: inline-block;
   font-size: 1.8rem;
   font-weight: 700;
   padding: 0 1rem;
