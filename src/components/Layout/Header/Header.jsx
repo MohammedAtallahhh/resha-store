@@ -1,7 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import Link from "next/link";
 import { useSession } from "next-auth/react";
-import { useSelector } from "react-redux";
 
 import AccountMenu from "./AccountMenu";
 
@@ -10,8 +9,7 @@ import { FiSearch } from "react-icons/fi";
 
 import styles from "./Header.module.scss";
 
-const Header = () => {
-  const country = useSelector((state) => state.country);
+const Header = ({ country }) => {
   const { data } = useSession();
 
   return (

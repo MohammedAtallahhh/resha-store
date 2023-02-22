@@ -72,11 +72,11 @@ const SignUp = ({ callbackUrl }) => {
         });
 
         if (res.ok) {
-          resetForm();
           router.push(callbackUrl);
           setMessage("Singed in successfully");
+        } else {
+          setMessage(res.error);
         }
-        setMessage(res.error);
         setLoading(false);
         resetForm();
         //

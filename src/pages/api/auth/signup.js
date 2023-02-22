@@ -3,8 +3,8 @@ import bcrypt from "bcrypt";
 
 import { connectDB, disconnectDB } from "@/helpers/db";
 import { validateEmail } from "@/helpers/validate";
-// import { createActivationToken } from "@/helpers/tokens";
-// import { sendEmail } from "@/helpers/sendemail";
+import { createActivationToken } from "@/helpers/tokens";
+import { sendEmail } from "@/helpers/sendemail";
 
 const handler = async (req, res) => {
   try {
@@ -39,13 +39,13 @@ const handler = async (req, res) => {
       const newUser = new User({ name, email, password: passwordHash });
 
       const addedUser = await newUser.save();
-      // const activation_token = createActivationToken({
-      //   id: addedUser._id.toString(),
-      // });
+      const activation_token = createActivationToken({
+        id: addedUser._id.toString(),
+      });
 
-      // const activation_url = `${process.env.NEXT_PUBLIC_BASE_URL}/activate/${activation_token}`;
+      const activation_url = `${process.env.NEXT_PUBLIC_BASE_URL}/activate/${activation_token}`;
 
-      // sendEmail(email, activation_url, "Activate Your Account", "");
+      sendEmail(email, activation_url, "Activate Your Account", "");
       await disconnectDB();
       return res.status(200).json({ user: addedUser });
     }

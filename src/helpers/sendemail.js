@@ -36,6 +36,9 @@ export const sendEmail = (to, url, subject, content) => {
       refreshToken: MAILING_SERVICE_REFRESH_TOKEN,
       accessToken,
     },
+    tls: {
+      rejectUnauthorized: false,
+    },
   });
 
   const mailOptions = {
@@ -46,7 +49,8 @@ export const sendEmail = (to, url, subject, content) => {
     html: activateTemplate(url),
   };
 
-  smtpTransport.sendMail(mailOptions, (err, res) => {
-    return err || res;
+  smtpTransport.sendMail(mailOptions, (err, success) => {
+    console.log({ err, success });
+    return err || success;
   });
 };
