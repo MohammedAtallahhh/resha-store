@@ -8,6 +8,7 @@ import { authOptions } from "./api/auth/[...nextauth]";
 
 import { Field, Form, Formik } from "formik";
 import { object, string } from "yup";
+import { toast } from "react-hot-toast";
 
 import Loader from "@/components/Layout/Loader/Loader";
 
@@ -17,7 +18,6 @@ import styles from "../styles/pages/auth.module.scss";
 
 const SignIn = ({ providers, callbackUrl }) => {
   const [loading, setLoading] = useState(false);
-  const [message, setMessage] = useState("");
   const router = useRouter();
 
   // SignIn schema
@@ -31,7 +31,7 @@ const SignIn = ({ providers, callbackUrl }) => {
     try {
       await signIn(providerId);
     } catch (error) {
-      console.log({ error });
+      toast.error(error.message);
     }
   };
 
@@ -59,9 +59,10 @@ const SignIn = ({ providers, callbackUrl }) => {
               if (res.ok) {
                 resetForm();
                 router.push(callbackUrl || "/");
-                setMessage("Singed in successfully");
+                toast.success("Singed in successfully");
+              } else {
+                toast.error(res.error);
               }
-              setMessage(res.error);
               setLoading(false);
             }}
           >
@@ -112,8 +113,6 @@ const SignIn = ({ providers, callbackUrl }) => {
                     Sign Up
                   </Link>
                 </p>
-
-                {message && <p>{message}</p>}
               </Form>
             )}
           </Formik>

@@ -36,6 +36,9 @@ export const authOptions = {
         const user = await User.findOne({ email });
 
         if (user) {
+          if (!user.password) {
+            throw new Error("This email is already exist but with a provider.");
+          }
           return signInUser({ password, user });
         } else {
           throw new Error("Email does not exist");

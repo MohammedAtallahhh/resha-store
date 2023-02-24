@@ -13,10 +13,10 @@ import { object, string, ref } from "yup";
 import styles from "../styles/pages/auth.module.scss";
 import axios from "axios";
 import Loader from "@/components/Layout/Loader/Loader";
+import { toast } from "react-hot-toast";
 
 const SignUp = ({ callbackUrl }) => {
   const [loading, setLoading] = useState(false);
-  const [message, setMessage] = useState("");
 
   const router = useRouter();
 
@@ -62,8 +62,7 @@ const SignUp = ({ callbackUrl }) => {
         setLoading(true);
 
         // Making the request to add the user
-        const { data } = await axios.post("/api/auth/signup", values);
-        setMessage(data.message);
+        await axios.post("/api/auth/signup", values);
 
         // adding the session and direct the user to homepage
         const res = await signIn("credentials", {
@@ -73,16 +72,16 @@ const SignUp = ({ callbackUrl }) => {
 
         if (res.ok) {
           router.push(callbackUrl);
-          setMessage("Singed in successfully");
+          toast.success("Signed up successfully");
         } else {
-          setMessage(res.error);
+          toast.error(res.error);
         }
         setLoading(false);
         resetForm();
         //
       } catch (err) {
         setLoading(false);
-        setMessage(err.response.data.message);
+        toast.error(err.response.data.message);
       }
     },
   });
@@ -167,8 +166,6 @@ const SignUp = ({ callbackUrl }) => {
                 Sign in
               </Link>
             </p>
-
-            {message && <p>{message}</p>}
           </form>
         </div>
       </div>

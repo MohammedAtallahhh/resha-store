@@ -16,7 +16,12 @@ const AccountMenu = ({ userData }) => {
   const router = useRouter();
 
   const handleLogout = async () => {
-    const data = await signOut({ redirect: false, callbackUrl: "/signin" });
+    const data = await signOut({
+      redirect: false,
+      callbackUrl: `/signin?callbackUrl=${encodeURIComponent(
+        process.env.NEXT_PUBLIC_BASE_URL + router.asPath
+      )}`,
+    });
     setMenu((prev) => !prev);
     router.push(data.url);
   };
@@ -38,7 +43,7 @@ const AccountMenu = ({ userData }) => {
     <div ref={menuRef} className={styles["account-menu"]}>
       <button onClick={() => setMenu((prev) => !prev)}>
         {userData ? (
-          <img src={userData.user.image} alt="user avatar" />
+          <img src={userData?.user?.image} alt="user avatar" />
         ) : (
           <VscAccount />
         )}

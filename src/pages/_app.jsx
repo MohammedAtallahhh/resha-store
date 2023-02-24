@@ -5,10 +5,16 @@ import { PersistGate } from "redux-persist/integration/react";
 import { Provider } from "react-redux";
 import store from "@/store";
 
+import { Toaster } from "react-hot-toast";
 import Header from "@/components/Layout/Header/Header";
-import Footer from "@/components/Layout/Footer";
+import Footer from "@/components/Layout/Footer/Footer";
 
 // Styles
+import "swiper/css";
+import "swiper/css/pagination";
+import "swiper/css/navigation";
+import "swiper/css/autoplay";
+
 import "@/styles/globals.scss";
 
 const persistor = persistStore(store);
@@ -24,6 +30,7 @@ export default function App({
           <>
             <Header country={pageProps.country} />
             <main className="content">
+              <Toaster />
               <Component {...pageProps} />
             </main>
             <Footer />
