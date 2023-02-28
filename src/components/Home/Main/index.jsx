@@ -1,13 +1,14 @@
 /* eslint-disable @next/next/no-img-element */
+import Link from "next/link";
+
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Navigation, Pagination } from "swiper";
 
 import images from "@/helpers/bannerImages";
+import { categories } from "@/helpers/categories";
 
 import { BiCategoryAlt } from "react-icons/bi";
 import styles from "./index.module.scss";
-import { categories } from "@/helpers/categories";
-import Link from "next/link";
 const HomeMain = () => {
   return (
     <div className={`${styles.homeMain} container`}>

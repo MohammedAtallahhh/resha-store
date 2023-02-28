@@ -1,0 +1,62 @@
+.slider {
+  .slide {
+    align-self: stretch;
+    background: white;
+
+    height: unset !important;
+    padding: 2rem;
+    box-shadow: 8px 8px 4px -4px rgba(0, 0, 0, 0.1);
+
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+
+    position: relative;
+
+    .slideImage {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 2rem;
+      img {
+        height: 30rem;
+        object-fit: contain;
+      }
+    }
+
+    .percentage {
+      position: absolute;
+      left: 1rem;
+      top: 1rem;
+
+      background: #0067db;
+      color: white;
+
+      display: flex;
+      justify-content: center;
+      align-items: center;
+
+      width: 5rem;
+      height: 5rem;
+      border-radius: 50%;
+
+      font-weight: 600;
+    }
+
+    .title {
+      margin-bottom: 1rem;
+      color: #555;
+    }
+
+    .oldPrice {
+      color: #777;
+      text-decoration: line-through;
+    }
+
+    .newPrice {
+      margin-right: 2rem;
+      font-size: 1.8rem;
+      font-weight: 600;
+    }
+  }
+}

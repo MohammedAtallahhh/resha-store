@@ -1,5 +1,6 @@
 import { getSession, SessionProvider } from "next-auth/react";
 
+// import axios from "axios";
 import { persistStore } from "redux-persist";
 import { PersistGate } from "redux-persist/integration/react";
 import { Provider } from "react-redux";
